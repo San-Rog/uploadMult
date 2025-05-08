@@ -4,5 +4,4 @@ pandas as pd
 streamlit
 datetime
 io
-xlsxwriter
-
+xlsxwriter=3.2.3
