@@ -159,5 +159,6 @@ def main():
     iniVars()
 
 if __name__ == '__main__':
+    st.experimental_set_query_params(lang="en")
     main()
 
