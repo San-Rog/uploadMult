@@ -6,7 +6,6 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-import pyperclip
 from os import path
 import os
 
@@ -106,12 +105,6 @@ def toTex():
 def toStata(fileDta):
     dta = df.to_stata(fileDta)
 
-def toClip():
-    pyper = df.to_clipboard(sep=',', index=False) 
-    #st.write(pyper)
-    #pyperclip.copy(pyper)
-    st.write(pyperclip.paste())
-            
 def iniVars():
     #Csv
     st.download_button(
@@ -154,10 +147,7 @@ def iniVars():
     #Stata
     if st.button(label="dataframe <-> stata"):
         toStata(f'{dirRoot}\\animals.dta')
-    #área de colagem - clipboard
-    if st.button(label="dataframe <-> área de transferência"): 
-        toClip()
-    
+        
 def roots():
     root = path.expanduser("~")
     dirs = [direct for direct in os.listdir(root)]
