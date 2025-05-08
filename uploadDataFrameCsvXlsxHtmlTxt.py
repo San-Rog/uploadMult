@@ -132,7 +132,7 @@ def iniVars():
     #Json
     st.download_button(
         label="dataframe <-> json",
-        data=toTxt(),
+        data=toJson(),
         file_name="dfTable.json"
     )
     #Tex
