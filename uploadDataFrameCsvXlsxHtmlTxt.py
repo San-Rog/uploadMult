@@ -6,10 +6,7 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-try: 
-    from BeautifulSoup import BeautifulSoup
-except ImportError:
-    from bs4 import BeautifulSoup
+import bs4
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
@@ -82,7 +79,7 @@ def toHtml():
     #with open(html, "r") as f:
     #    htmlText = html5lib.parse(f)   
     #    st.write(htmlText)
-    htmlText = str(BeautifulSoup(html, "html.parser"))
+    htmlText = str(bs4.BeautifulSoup(html, "html.parser"))
     hmtlPlus = """
     <style>
         .button {
