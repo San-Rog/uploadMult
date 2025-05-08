@@ -6,6 +6,7 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
+from xlsxwriter import Workbook
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
