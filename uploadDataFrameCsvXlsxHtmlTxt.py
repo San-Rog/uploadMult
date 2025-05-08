@@ -6,7 +6,6 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-from xlsxwriter import Workbook
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
@@ -102,12 +101,12 @@ def toTxt():
     
 def iniVars():
     #Xlsx
-    st.download_button(
-        label="dataframe <-> xlsx",
-        data=toExcel('plan1'),
-        file_name='data.xlsx',
-        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    )
+    #st.download_button(
+    #    label="dataframe <-> xlsx",
+    #    data=toExcel('plan1'),
+    #    file_name='data.xlsx',
+    #    mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    #)
     #Csv
     st.download_button(
         label="dataframe <-> csv",
