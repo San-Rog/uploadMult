@@ -4,5 +4,5 @@ pandas as pd
 streamlit
 datetime
 io
-bs4=0.0.2
+bs4=4.13.4
 
