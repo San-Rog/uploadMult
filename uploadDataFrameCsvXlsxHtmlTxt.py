@@ -6,7 +6,12 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-import locale
+import pyperclip
+from os import path
+import os
+import psutil
+import keyboard
+import streamlit.components.v1 as components
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
@@ -17,12 +22,10 @@ def countCurUseFul(dateTuple):
     dateIniName = dateIni.strftime("%#d de %B de %Y")
     count = 0 
     n = 0 
-    if mode == 0:
-        st.markdown(f'**Data inicial**  : {dateIniStr} ({dateIniName})')
-        st.markdown(f'**Número de dias**: {num}')
-        st.markdown(f"***:blue-background[{expr}]***")
-    else:
-        st.markdown(f"***:red-background[{expr}]***")
+    colStart, colDays, colCrit = st.columns(spec=3, gap='small', vertical_alignment='top', border=True)
+    colStart.markdown(f'**Data inicial**  : {dateIniStr} ({dateIniName})')
+    colDays.markdown(f'**Número de dias**: {num}')
+    colCrit.markdown(f"**Critério**: ***:blue-background[{expr}]***")
     while count < num:
         dateNew = dateIni + datetime.timedelta(days=n)
         weekNum = dateNew.weekday()
@@ -69,7 +72,6 @@ def toPickle():
 
 def toHtml():
     htmlText = df.to_html(index=False)
-    htmlLang = "<html lang='pt-br'>" 
     hmtlPlus = """
     <style>
         .button {
@@ -87,7 +89,7 @@ def toHtml():
     </style>
     <button class="button button1" onclick=window.print()>Imprime</button>
     """    
-    htmlText += f"{htmlLang}<body>{hmtlPlus}</body>"
+    htmlText += f"<body>{hmtlPlus}</body>"
     return htmlText
     
 def toTxt():
@@ -102,46 +104,103 @@ def toTex():
     tex = df.to_latex()
     return tex
 
+def toStata(fileDta):
+    dta = df.to_stata(fileDta)
+
+def toClip():
+    pyper = df.to_clipboard(sep=',', index=False) 
+    #st.write(pyperclip.paste())
+
+def exitApp():
+    keyboard.press_and_release('ctrl+w')
+    pid = os.getpid()
+    p = psutil.Process(pid)
+    p.terminate()
+            
 def iniVars():
-    #Csv
-    st.download_button(
-        label="dataframe <-> csv",
-        data=toCsv(),
-        file_name='dfTable.csv',
-        mime='text/csv'  
-    )
-    #Pkl
-    st.download_button(
-        label="dataframe <-> pickle",
-        data=toPickle(),
-        file_name="dfTable.pkl",
-        mime="application/octet-stream"
-    )   
-    #Html
-    st.download_button(
-        label="dataframe <-> html",
-        data=toHtml(),
-        file_name="dfTable.html"
-    )
-    #String
-    st.download_button(
-        label="dataframe <-> txt",
-        data=toTxt(),
-        file_name="dfTable.txt"
-    )
-    #Json
-    st.download_button(
-        label="dataframe <-> json",
-        data=toJson(),
-        file_name="dfTable.json"
-    )
-    #Tex
-    st.download_button(
-        label="dataframe <-> latex",
-        data=toTex(),
-        file_name="dfTable.tex"
-    )    
+    labels = {'csv':['dfTable.csv', "Download da tabela para o formato 'csv'.", ":material/download:"], 
+              'pickle': ['dfTable.pkl', "Download da tabela para o formato 'pickle'.", ":material/download:"], 
+              'html': ['dfTable.html', "Download da tabela para o formato 'html'.", ":material/download:"], 
+              'txt': ['dfTable.txt', "Download da tabela para o formato 'txt'.", ":material/download:"], 
+              'json': ['dfTable.json', "Download da tabela para o formato 'json'.", ":material/download:"], 
+              'latex': ['dfTable.tex', "Download da tabela para o formato 'tex'.", ":material/download:"], 
+              'clipboard': ['', "Envia a tabela para sua área de transferência.", ":material/assignment:"], 
+              'saída': ['', "Sai do aplicativo.", ":material/logout:"]}
+    keys = list(labels.keys())
+    with st.container(border=False):
+        st.markdown(f":point_right: **:blue[opções]**")
+        #Csv
+        colCsv, colPkl, colHtml, colString = st.columns(spec=4, gap='small', vertical_alignment='center', border=False)
+        colCsv.download_button(
+            label=keys[0],
+            use_container_width=True, 
+            data=toCsv(),
+            file_name=labels[keys[0]][0],
+            mime='text/csv', 
+            help=labels[keys[0]][1], 
+            icon=labels[keys[0]][2]
+        )
+        #Pkl
+        colPkl.download_button(
+            label=keys[1],
+            use_container_width=True, 
+            data=toPickle(),
+            file_name=labels[keys[1]][0],
+            mime="application/octet-stream", 
+            help=labels[keys[1]][1], 
+            icon=labels[keys[1]][2]
+        )   
+        #Html
+        colHtml.download_button(
+            label=keys[2],
+            use_container_width=True, 
+            data=toHtml(),
+            file_name=labels[keys[2]][0], 
+            help=labels[keys[2]][1], 
+            icon=labels[keys[2]][2]
+        )
+        #String
+        colString.download_button(
+            label=keys[3],
+            use_container_width=True, 
+            data=toTxt(),
+            file_name=labels[keys[3]][0], 
+            help=labels[keys[3]][1], 
+            icon=labels[keys[3]][2]
+        )
+        colJson, colLatex, colClip, colExit = st.columns(spec=4, gap='small', vertical_alignment='top', border=False)
+        #Json
+        colJson.download_button(
+            label=keys[4],
+            use_container_width=True,
+            data=toJson(),
+            file_name=labels[keys[4]][0], 
+            help=labels[keys[4]][1], 
+            icon=labels[keys[4]][2]
+        )
+        #Tex
+        colLatex.download_button(
+            label=keys[5],
+            use_container_width=True,
+            data=toTex(),
+            file_name=labels[keys[5]][0], 
+            help=labels[keys[5]][1], 
+            icon=labels[keys[5]][2]
+        )    
+        #área de colagem - clipboard
+        if colClip.button(
+            label=keys[6], 
+            use_container_width=True,
+            help=labels[keys[6]][1], icon=labels[keys[6]][2]):
+                toClip()
         
+        #Saída
+        if colExit.button(
+            label=keys[7], 
+            use_container_width=True, 
+            help=labels[keys[7]][1], icon=labels[keys[7]][2]):
+            exitApp()  
+    
 def main():
     global output, dirRoot
     global keyCurrent, keyUseFul
@@ -151,13 +210,25 @@ def main():
     dateCurrUse = {key:[] for key in keyCurrent}
     dateNow = datetime.date.today()
     d = date(2025, 5, 9)
-    arg = (d, 12, 0, 'Contagem em dias corridos')
-    countCurUseFul(arg)
-    df = pd.DataFrame(dateCurrUse)
-    st.dataframe(data=df, hide_index=True, use_container_width=True)
-    output = BytesIO() 
-    iniVars()
+    #args = [(d, 12, 0, 'Contagem em dias corridos', 'Demonstrativo 1'), 
+    #        (d, 12, 1, 'Contagem em dias úteis', 'Demonstrativo 2')]
+    #Somente dias corridos
+    args =  [(d, 12, 0, 'Contagem em dias corridos', 'demonstrativo único')]
+    for a, arg in enumerate(args):
+        #st.divider()
+        if a == (len(args) - 1): 
+            st.write('')
+            st.write('')
+        st.markdown(f":page_with_curl: **:blue[{arg[-1]}]**")
+        countCurUseFul(arg)
+        df = pd.DataFrame(dateCurrUse)
+        st.dataframe(data=df, hide_index=True, use_container_width=True)
+        output = BytesIO() 
+        dateCurrUse.clear()
+        dateCurrUse = {key:[] for key in keyCurrent}
+    iniVars()    
 
 if __name__ == '__main__':
+    locale.setlocale(locale.LC_ALL, 'pt_PT.UTF-8')
     main()
 
