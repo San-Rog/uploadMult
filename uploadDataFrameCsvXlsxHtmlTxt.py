@@ -159,6 +159,6 @@ def main():
     iniVars()
 
 if __name__ == '__main__':
-    st.query_params(lang="en")
+    locale.setlocale(locale.LC_ALL, 'pt_PT.UTF-8')
     main()
 
