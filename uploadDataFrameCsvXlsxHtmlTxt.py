@@ -68,7 +68,7 @@ def toPickle():
 
 def toHtml():
     htmlText = df.to_html(index=False)
-    htmlLang = <html lang="pt-br"> 
+    htmlLang = "<html lang='pt-br'>" 
     hmtlPlus = """
     <style>
         .button {
