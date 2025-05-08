@@ -6,7 +6,10 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-from bs4 import BeautifulSoup
+try: 
+    from BeautifulSoup import BeautifulSoup
+except ImportError:
+    from bs4 import BeautifulSoup
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
@@ -75,7 +78,10 @@ def toPickle():
     return pkl
 
 def toHtml():
-    html = df.to_html(index=False).encode('ISO-8859-1')
+    html = df.to_html(index=False).encode('utf-8')
+    #with open(html, "r") as f:
+    #    htmlText = html5lib.parse(f)   
+    #    st.write(htmlText)
     htmlText = str(BeautifulSoup(html, "html.parser"))
     hmtlPlus = """
     <style>
