@@ -68,8 +68,8 @@ def toPickle():
 
 def toHtml():
     htmlText = df.to_html(index=False)
+    htmlLang = <html lang="pt-br"> 
     hmtlPlus = """
-    <html lang="fr" xml:lang="fr" xmlns="http://www.w3.org/1999/xhtml">
     <style>
         .button {
           background-color: #04AA6D; /* Green */
@@ -86,7 +86,7 @@ def toHtml():
     </style>
     <button class="button button1" onclick=window.print()>Imprime</button>
     """    
-    htmlText += f"<body>{hmtlPlus}</body>"
+    htmlText += f"{htmlLang}<body>{hmtlPlus}</body>"
     return htmlText
     
 def toTxt():
