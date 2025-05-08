@@ -6,8 +6,6 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-from os import path
-import os
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
@@ -146,25 +144,15 @@ def iniVars():
     )    
     #Stata
     if st.button(label="dataframe <-> stata"):
-        toStata(f'{dirRoot}\\animals.dta')
+        toStata('animals.dta') 
         
-def roots():
-    root = path.expanduser("~")
-    dirs = [direct for direct in os.listdir(root)]
-    st.write(root)
-    st.write(dirs)
-    root = [os.path.join(root, dir) for dir in dirs if dir.lower().strip() == 'downloads'][0]
-    st.write(root)
-    return root
-    
 def main():
     global output, dirRoot
     global keyCurrent, keyUseFul
     global dateCurrUse, df
     keyCurrent = ['dia do mês', 'dias da semana', 
                   'condição', 'sequencial', 'contador geral']
-    dateCurrUse = {key:[] for key in keyCurrent}
-    dirRoot = roots()
+    dateCurrUse = {key:[] for key in keyCurrent)
     dateNow = datetime.date.today()
     d = date(2025, 5, 9)
     arg = (d, 12, 0, 'Contagem em dias corridos')
