@@ -6,7 +6,7 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-#from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
