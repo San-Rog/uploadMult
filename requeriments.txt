@@ -5,3 +5,4 @@ streamlit
 datetime
 io
 bs4
+xlsxwriter
