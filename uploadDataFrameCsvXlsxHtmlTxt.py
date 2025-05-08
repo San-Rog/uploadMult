@@ -6,6 +6,9 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
+import pyperclip
+from os import path
+import os
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
@@ -58,13 +61,6 @@ def countCurUseFul(dateTuple):
         n += 1
 
 # Function to convert DataFrame to Excel file in memory
-def toExcel(sheet):
-    writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, index=False, sheet_name=sheet)
-    writer.close()
-    xlsx = output.getvalue()
-    return xlsx
-    
 def toCsv():
     csv = df.to_csv(index=False).encode('ISO-8859-1')
     return csv
@@ -98,15 +94,25 @@ def toHtml():
 def toTxt():
     txt = df.to_string(index=False).encode('ISO-8859-1')
     return txt
+ 
+def toJson():
+    json = df.to_json()
+    return json
     
+def toTex():
+    tex = df.to_latex()
+    return tex
+
+def toStata(fileDta):
+    dta = df.to_stata(fileDta)
+
+def toClip():
+    pyper = df.to_clipboard(sep=',', index=False) 
+    #st.write(pyper)
+    #pyperclip.copy(pyper)
+    st.write(pyperclip.paste())
+            
 def iniVars():
-    #Xlsx
-    #st.download_button(
-    #    label="dataframe <-> xlsx",
-    #    data=toExcel('plan1'),
-    #    file_name='data.xlsx',
-    #    mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    #)
     #Csv
     st.download_button(
         label="dataframe <-> csv",
@@ -133,14 +139,42 @@ def iniVars():
         data=toTxt(),
         file_name="dfTable.txt"
     )
+    #Json
+    st.download_button(
+        label="dataframe <-> json",
+        data=toTxt(),
+        file_name="dfTable.json"
+    )
+    #Tex
+    st.download_button(
+        label="dataframe <-> latex",
+        data=toTex(),
+        file_name="dfTable.tex"
+    )    
+    #Stata
+    if st.button(label="dataframe <-> stata"):
+        toStata(f'{dirRoot}\\animals.dta')
+    #área de colagem - clipboard
+    if st.button(label="dataframe <-> área de transferência"): 
+        toClip()
+    
+def roots():
+    root = path.expanduser("~")
+    dirs = [direct for direct in os.listdir(root)]
+    st.write(root)
+    st.write(dirs)
+    root = [os.path.join(root, dir) for dir in dirs if dir.lower().strip() == 'downloads'][0]
+    st.write(root)
+    return root
     
 def main():
-    global output, df
+    global output, dirRoot
     global keyCurrent, keyUseFul
-    global dateCurrUse
+    global dateCurrUse, df
     keyCurrent = ['dia do mês', 'dias da semana', 
                   'condição', 'sequencial', 'contador geral']
     dateCurrUse = {key:[] for key in keyCurrent}
+    dirRoot = roots()
     dateNow = datetime.date.today()
     d = date(2025, 5, 9)
     arg = (d, 12, 0, 'Contagem em dias corridos')
