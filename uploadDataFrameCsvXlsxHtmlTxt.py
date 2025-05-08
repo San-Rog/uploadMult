@@ -100,9 +100,6 @@ def toTex():
     tex = df.to_latex()
     return tex
 
-def toStata(fileDta):
-    dta = df.to_stata(fileDta)
-
 def iniVars():
     #Csv
     st.download_button(
@@ -142,9 +139,6 @@ def iniVars():
         data=toTex(),
         file_name="dfTable.tex"
     )    
-    #Stata
-    if st.button(label="dataframe <-> stata"):
-        toStata('animals.dta') 
         
 def main():
     global output, dirRoot
