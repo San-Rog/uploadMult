@@ -1,5 +1,5 @@
 import pickle
-import locale
+#import locale
 import pandas as pd
 import streamlit as st
 import datetime
@@ -153,5 +153,5 @@ def main():
     iniVars()
 
 if __name__ == '__main__':
-    locale.setlocale(locale.LC_ALL, 'pt_PT.UTF-8')
+    #locale.setlocale(locale.LC_ALL, 'pt_PT.UTF-8')
     main()
