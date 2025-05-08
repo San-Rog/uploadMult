@@ -152,7 +152,7 @@ def main():
     global dateCurrUse, df
     keyCurrent = ['dia do mês', 'dias da semana', 
                   'condição', 'sequencial', 'contador geral']
-    dateCurrUse = {key:[] for key in keyCurrent)
+    dateCurrUse = {key:[] for key in keyCurrent}
     dateNow = datetime.date.today()
     d = date(2025, 5, 9)
     arg = (d, 12, 0, 'Contagem em dias corridos')
