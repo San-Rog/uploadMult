@@ -1,5 +1,5 @@
 import pickle
-#import locale
+import locale
 import pandas as pd
 import streamlit as st
 import datetime
@@ -103,12 +103,12 @@ def toTxt():
     
 def iniVars():
     #Xlsx
-    #st.download_button(
-    #    label="dataframe <-> xlsx",
-    #    data=toExcel('plan1'),
-    #    file_name='data.xlsx',
-    #    mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    #)
+    st.download_button(
+        label="dataframe <-> xlsx",
+        data=toExcel('plan1'),
+        file_name='data.xlsx',
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
     #Csv
     st.download_button(
         label="dataframe <-> csv",
@@ -153,5 +153,5 @@ def main():
     iniVars()
 
 if __name__ == '__main__':
-    #locale.setlocale(locale.LC_ALL, 'pt_PT.UTF-8')
+    locale.setlocale(locale.LC_ALL, 'pt_PT.UTF-8')
     main()
