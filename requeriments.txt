@@ -1,6 +1,6 @@
 pickle
 locale
-pandas
+pandas as pd
 streamlit
 datetime
 io
