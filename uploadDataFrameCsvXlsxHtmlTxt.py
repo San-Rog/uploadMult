@@ -6,7 +6,6 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-import bs4
 
 def countCurUseFul(dateTuple):
     dateIni = dateTuple[0]
@@ -75,11 +74,7 @@ def toPickle():
     return pkl
 
 def toHtml():
-    html = df.to_html(index=False).encode('utf-8')
-    #with open(html, "r") as f:
-    #    htmlText = html5lib.parse(f)   
-    #    st.write(htmlText)
-    htmlText = str(bs4.BeautifulSoup(html, "html.parser"))
+    htmlText = df.to_html(index=False)
     hmtlPlus = """
     <style>
         .button {
@@ -158,3 +153,4 @@ def main():
 if __name__ == '__main__':
     locale.setlocale(locale.LC_ALL, 'pt_PT.UTF-8')
     main()
+
