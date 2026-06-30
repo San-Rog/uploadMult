@@ -6,7 +6,7 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from io import BytesIO
-import pyperclip
+#import pyperclip
 from os import path
 import os
 import psutil
@@ -188,11 +188,11 @@ def iniVars():
             icon=labels[keys[5]][2]
         )    
         #área de colagem - clipboard
-        if colClip.button(
-            label=keys[6], 
-            use_container_width=True,
-            help=labels[keys[6]][1], icon=labels[keys[6]][2]):
-                toClip()
+        #if colClip.button(
+            #label=keys[6], 
+            #use_container_width=True,
+            #help=labels[keys[6]][1], icon=labels[keys[6]][2]):
+                #toClip()
         
         #Saída
         if colExit.button(
